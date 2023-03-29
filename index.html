@@ -14,24 +14,23 @@
         </nav>
     </header>
     <main>
-        <section class="sidebar">
-            <section id="search">
-                <form>
+        <section id="sidebar">
+            <section>
+                <form id="search">
                     <label>Search for a City:</label>
                     <input type="text" value="">
-                    <button>Search</button>
+                    <button id="search-btn" onclick="getWeather()">Search</button>
                 </form>
             </section>
             <hr>
             <section id="history">
             </section>
         </section>
-        <section class="results">
-            <section class="today">
+        <section id="results">
+            <section id="today">
                 <h2>Test</h2>
             </section>
-            <section class="five-day">
-                <table>
+                <table id="five-day">
                     <tr>
                         <th>Day 1</th>
                         <th>Day 2</th>
@@ -41,9 +40,8 @@
                         
                       </tr>
                 </table>
-            </section>
         </section>
     </main>
-
+<script src="./assets/script.js"></script>
 </body>
 </html>
