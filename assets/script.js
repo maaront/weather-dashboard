@@ -5,7 +5,7 @@ const searchForm = document.querySelector('#search-form');
 // Add a submit event listener to the form
 searchForm.addEventListener('submit', function(event) { // When form is submitted, trigger function"event"
     event.preventDefault(); // Prevent form from executing a page refresh
-    const city = event.target.querySelector('input').value; // Get the city value from the input field
+    const city = event.target.querySelector('#city-input').value; // Get the city value from the input field
     getWeather(city); // Then call the getWeather function with the newly acquired city value
 });
 
