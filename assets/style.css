@@ -18,3 +18,9 @@
     display: flex;
     flex-direction: row;
 }
+
+#five-day > div {
+    background-color: var(--medium);
+    margin: 5px;
+    padding: 5px;
+}

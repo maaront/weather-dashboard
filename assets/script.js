@@ -75,7 +75,9 @@ function fiveDayForecast(weatherData) {
         const temp = document.createElement('p');
 
         // Set the content and attributes for the elements
-        title.textContent = `Day ${index + 1}`;
+        const date = new Date(day.dt_txt);
+        const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+        title.textContent = formattedDate;
         icon.src = `https://openweathermap.org/img/w/${day.weather[0].icon}.png`;
         icon.alt = 'Weather icon';
         temp.textContent = `Temperature: ${day.main.temp}°F`;
