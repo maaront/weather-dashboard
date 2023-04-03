@@ -35,13 +35,13 @@ nav {
     flex-direction: column;
 }
 
-#search-btn {
+ #search-btn {
     background-color: var(--medium);
     color: var(--light);
     border: none;
     padding: 5px;
     margin-top: 10px;
-}
+} 
 
 #history {
     display: flex;
