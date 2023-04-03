@@ -1,6 +1,7 @@
 // Creating variables for the search button and form
 const searchBtn = document.querySelector('#search-btn');
 const searchForm = document.querySelector('#search-form');
+const clearHistoryBtn = document.querySelector('#clear-history-btn');
 
 // Add a submit event listener to the form
 searchForm.addEventListener('submit', function(event) { // When form is submitted, trigger function"event"
@@ -9,6 +10,11 @@ searchForm.addEventListener('submit', function(event) { // When form is submitte
     getWeather(city); // Then call the getWeather function with the newly acquired city value
 });
 
+// Add a click event listener to the clear history button
+clearHistoryBtn.addEventListener('click', function() {
+    localStorage.removeItem('cityHistory'); // Clear the city history from local storage
+    updateSearchHistory(); // Update the search history section
+    });
 
 // Fetching the weather data from Open Weather
 function getWeather(city) { // Create new function that takes the city value as an argument
@@ -20,7 +26,6 @@ function getWeather(city) { // Create new function that takes the city value as 
     .then (function (weatherData) { // Combine the promise using .then
         todayForecast(weatherData); // Pass newly acquired weatherData to today's forecast function
         fiveDayForecast(weatherData); // Pass newly acquired weatherData to five day forecast function
-
     })
 
     // Save the city name in the local storage
@@ -30,29 +35,20 @@ function getWeather(city) { // Create new function that takes the city value as 
     updateSearchHistory();
 }
 
-
-
 //Display the weather data for today's weather
 function todayForecast(weatherData) {
     const todayEl = document.querySelector('#today');
-    const currentDate = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
-    const currentWeather = weatherData.list.find(item => item.dt_txt.split(' ')[0] === currentDate); // Find the first weather data for the current date
+    const currentWeather = weatherData.list[0];
     
-    if (currentWeather) {
-        const currentTemp = currentWeather.main.temp;
-        const currentWeatherIcon = currentWeather.weather[0].icon;
-
-        todayEl.innerHTML = `
-            <h2>${weatherData.city.name}</h2>
-            <img src="https://openweathermap.org/img/w/${currentWeatherIcon}.png" alt="Weather icon">
-            <p>Temperature: ${currentTemp}°F</p>
-        `;
-    } else {
-        todayEl.innerHTML = `
-            <h2>Weather data not available for ${weatherData.city.name} on ${currentDate}</h2>
-        `;
-    }
-}
+    const currentTemp = currentWeather.main.temp;
+    const currentWeatherIcon = currentWeather.weather[0].icon;
+  
+    todayEl.innerHTML = `
+      <h2>${weatherData.city.name}</h2>
+      <img src="https://openweathermap.org/img/w/${currentWeatherIcon}.png" alt="Weather icon">
+      <p>Temperature: ${currentTemp}°F</p>
+    `;
+  }
 
 // Displaying the weather data for the 5-day forecast
 function fiveDayForecast(weatherData) {
