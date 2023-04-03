@@ -1,13 +1,47 @@
 :root {
     --dark: rgb(2, 54, 38);
-    --medium: rgb(6, 166, 35);
+    --medium: rgb(0, 147, 233);
     --light: white;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+    
+}
+
+main {
+
+}
+
+
+nav {
+    text-align: center;
+    background-color: var(--medium);
+    background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+    color: white;
+    padding: 10px 0;
+    margin-bottom: 30px;
 }
 
  main {
     display: flex;
     flex-direction: row;
 } 
+
+#sidebar {
+    width: 25%;
+    margin: 0 20px;
+}
+
+#search-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#search-btn {
+    background-color: var(--medium);
+    color: var(--light);
+    border: none;
+    padding: 5px;
+    margin-top: 10px;
+}
 
 #history {
     display: flex;

@@ -73,6 +73,8 @@ function fiveDayForecast(weatherData) {
         const title = document.createElement('h3');
         const icon = document.createElement('img');
         const temp = document.createElement('p');
+        const wind = document.createElement('p');
+        const humidity = document.createElement('p');
 
         // Set the content and attributes for the elements
         const date = new Date(day.dt_txt);
@@ -81,11 +83,15 @@ function fiveDayForecast(weatherData) {
         icon.src = `https://openweathermap.org/img/w/${day.weather[0].icon}.png`;
         icon.alt = 'Weather icon';
         temp.textContent = `Temperature: ${day.main.temp}°F`;
+        wind.textContent = `Wind: ${day.wind.speed} MPH`;
+        humidity.textContent = `Humidity: ${day.main.humidity}%`;
 
         // Append the elements to the card
         card.appendChild(title);
         card.appendChild(icon);
         card.appendChild(temp);
+        card.appendChild(wind);
+        card.appendChild(humidity);
 
         // Append the card to the five-day section
         fiveDaySection.appendChild(card);
