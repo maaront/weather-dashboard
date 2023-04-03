@@ -1,5 +1,5 @@
 :root {
-    --dark: rgb(21, 34, 121);
+    --dark: rgb(49, 68, 198);
     --medium: rgb(0, 147, 233);
     --light: white;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
@@ -23,8 +23,6 @@ nav {
     padding: 10px 0;
     margin-bottom: 30px;
 }
-
-
 
  main {
     display: flex;
@@ -72,10 +70,19 @@ nav {
     border-radius: 5px;
 }
 
-
-
 #today {
+    background-color: var(--dark);
     color: var(--light);
+    margin: 5px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-around;
+}
+
+#weather-icon {
+    /* align-self: center; */
+    height: 200px;
 }
 
 #five-day {

@@ -19,11 +19,13 @@ clearHistoryBtn.addEventListener('click', function() {
 // Fetching the weather data from Open Weather
 function getWeather(city) { // Create new function that takes the city value as an argument
     const requestUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=46b7ef6bf0d16988ac3f5f8e04b5bf40&units=imperial` // Build the proper API URL using the 'city' value 
+   
     fetch(requestUrl) // Kicking off the fetch function using the new requestURL
     .then(function (response) { // Getting a response
         return response.json(); // Converting this response to JSON
     })
     .then (function (weatherData) { // Combine the promise using .then
+        console.log(weatherData); // Log the weather data to the console
         todayForecast(weatherData); // Pass newly acquired weatherData to today's forecast function
         fiveDayForecast(weatherData); // Pass newly acquired weatherData to five day forecast function
     })
@@ -39,14 +41,23 @@ function getWeather(city) { // Create new function that takes the city value as 
 function todayForecast(weatherData) {
     const todayEl = document.querySelector('#today');
     const currentWeather = weatherData.list[0];
+    console.log(currentWeather);
+    const currentDate = new Date(currentWeather.dt_txt.split(' ')[0]).toLocaleDateString('en-US');
+    
     
     const currentTemp = currentWeather.main.temp;
     const currentWeatherIcon = currentWeather.weather[0].icon;
+    const currentHumidity = currentWeather.main.humidity;
   
     todayEl.innerHTML = `
-      <h2>${weatherData.city.name}</h2>
-      <img src="https://openweathermap.org/img/w/${currentWeatherIcon}.png" alt="Weather icon">
+    <span>  
+        <h2>Weather for ${weatherData.city.name} on ${currentDate}</h2>
       <p>Temperature: ${currentTemp}°F</p>
+      <p>Wind Speed: ${currentTemp}</p>
+      <p>Humidity: ${currentHumidity}%</p>
+    </span>
+      <img src="https://openweathermap.org/img/w/${currentWeatherIcon}.png" alt="Weather icon" id="weather-icon">
+
     `;
   }
 
@@ -63,7 +74,7 @@ function fiveDayForecast(weatherData) {
         return itemHour === 12;
     }).slice(0, 5); // Limit the forecast to 5 days
 
-    forecast.forEach((day, index) => {
+    forecast.forEach((day) => {
         // Create elements for the forecast card
         const card = document.createElement('div');
         const title = document.createElement('h3');
