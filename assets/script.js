@@ -22,44 +22,99 @@ function getWeather(city) { // Create new function that takes the city value as 
         fiveDayForecast(weatherData); // Pass newly acquired weatherData to five day forecast function
 
     })
+
+    // Save the city name in the local storage
+    saveCityToLocalStorage(city);
+
+    // Update the search history section
+    updateSearchHistory();
 }
 
-//Display the weather data for today's weather
-function todayForecast(weatherData) { // Create new function that takes the weather data as an argument
-    const todayEl = document.querySelector('#today'); // Create new const for the #today section in the HTML
-    const currentWeather = weatherData.list[0]; // Assigns new const from 1st result of weatherData list
-    const currentTemp = currentWeather.main.temp; // Assigns new const for the temperature
-    const currentWeatherIcon = currentWeather.weather[0].icon; //Assigns new const for the icon
 
-    // Adds the city name, weather icon, and temperature with a template literal
-    todayEl.innerHTML = `
-        <h2>${weatherData.city.name}</h2>
-        <img src="https://openweathermap.org/img/w/${currentWeatherIcon}.png" alt="Weather icon">
-        <p>Temperature: ${currentTemp}°F</p>
-    `;
+
+//Display the weather data for today's weather
+function todayForecast(weatherData) {
+    const todayEl = document.querySelector('#today');
+    const currentDate = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
+    const currentWeather = weatherData.list.find(item => item.dt_txt.split(' ')[0] === currentDate); // Find the first weather data for the current date
+    
+    if (currentWeather) {
+        const currentTemp = currentWeather.main.temp;
+        const currentWeatherIcon = currentWeather.weather[0].icon;
+
+        todayEl.innerHTML = `
+            <h2>${weatherData.city.name}</h2>
+            <img src="https://openweathermap.org/img/w/${currentWeatherIcon}.png" alt="Weather icon">
+            <p>Temperature: ${currentTemp}°F</p>
+        `;
+    } else {
+        todayEl.innerHTML = `
+            <h2>Weather data not available for ${weatherData.city.name} on ${currentDate}</h2>
+        `;
+    }
 }
 
 // Displaying the weather data for the 5-day forecast
-function fiveDayForecast(weatherData) { // Create new function for the five-day forecast that takes the weather data as an argument
-    const fiveDayTable = document.querySelector('#five-day'); // Create new const for the five day table
-    const forecast = weatherData.list.filter((index) => index % 8 === 0).slice(1); // Filter data list to retrieve one weather entry per day (every 8th entry) and excludes the first entry
+function fiveDayForecast(weatherData) {
+    const fiveDaySection = document.querySelector('#five-day');
+    fiveDaySection.innerHTML = ''; // Clear the existing content
 
-    const tableRows = forecast.map((day, index) => { 
-    const dayTemp = day.main.temp;
-    const dayWeatherIcon = day.weather[0].icon;
-    return `
-        <td>
-            <h3>Day ${index + 1}</h3>
-            <img src="https://openweathermap.org/img/w/${dayWeatherIcon}.png" alt="Weather icon">
-            <p>Temperature: ${dayTemp}°F</p>
-        </td>
-    `;
-}).join(''); // Use this method to concatenate the array of table cells into a string
+    const forecast = weatherData.list.filter(item => {
+        const itemDate = new Date(item.dt_txt);
+        const itemHour = itemDate.getHours();
 
-// Then add this new string to with a table row
-fiveDayTable.innerHTML = ` 
-<tr>
-  ${tableRows}
-</tr>
-`;
+        // Get the noon weather (12:00) for the next 5 days
+        return itemHour === 12;
+    }).slice(0, 5); // Limit the forecast to 5 days
+
+    forecast.forEach((day, index) => {
+        // Create elements for the forecast card
+        const card = document.createElement('div');
+        const title = document.createElement('h3');
+        const icon = document.createElement('img');
+        const temp = document.createElement('p');
+
+        // Set the content and attributes for the elements
+        title.textContent = `Day ${index + 1}`;
+        icon.src = `https://openweathermap.org/img/w/${day.weather[0].icon}.png`;
+        icon.alt = 'Weather icon';
+        temp.textContent = `Temperature: ${day.main.temp}°F`;
+
+        // Append the elements to the card
+        card.appendChild(title);
+        card.appendChild(icon);
+        card.appendChild(temp);
+
+        // Append the card to the five-day section
+        fiveDaySection.appendChild(card);
+    });
 }
+
+
+function saveCityToLocalStorage(city) {
+    let cityHistory = JSON.parse(localStorage.getItem('cityHistory')) || [];
+
+    // Check if the city is already in the history
+    if (!cityHistory.includes(city)) {
+        cityHistory.push(city);
+        localStorage.setItem('cityHistory', JSON.stringify(cityHistory));
+    }
+}
+
+function updateSearchHistory() {
+    const cityHistory = JSON.parse(localStorage.getItem('cityHistory')) || [];
+    const historyEl = document.querySelector('#history');
+    historyEl.innerHTML = '';
+
+    cityHistory.forEach(city => {
+        const cityBtn = document.createElement('button');
+        cityBtn.textContent = city;
+        cityBtn.addEventListener('click', () => {
+            getWeather(city);
+        });
+
+        historyEl.appendChild(cityBtn);
+    });
+}
+
+updateSearchHistory();

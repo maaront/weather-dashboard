@@ -4,6 +4,17 @@
     --light: white;
 }
 
-/* main {
+ main {
     display: flex;
-} */
+    flex-direction: row;
+} 
+
+#history {
+    display: flex;
+    flex-direction: column;
+}
+
+#five-day {
+    display: flex;
+    flex-direction: row;
+}
