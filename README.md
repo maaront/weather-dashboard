@@ -6,7 +6,7 @@ This webpage houses weather dashboard where the user can pick a city and view to
 https://maaront.github.io/weather-dashboard/
 
 ## Screenshot
-<img width="903" alt="Screenshot 2023-03-11 at 10 31 06 AM" src="https://user-images.githubusercontent.com/35611834/224493168-05cd144b-0337-41a8-865a-f671610bc0a6.png">
+<img width="1273" alt="Screenshot 2023-04-03 at 9 01 04 PM" src="https://user-images.githubusercontent.com/35611834/229659381-72449d12-e4db-4384-8974-46032e690440.png">
 
 ## Usage
 When the user searches for a city in the search box, the day's weather day (temperature, humidity, and rain chance) is shown.
